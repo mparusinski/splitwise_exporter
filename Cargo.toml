@@ -9,3 +9,5 @@ edition = "2021"
 chrono = "0.4.31"
 tokio = { version = "1", features = ["full"] }
 splitwise = "0.3.0"
+csv = "1.3.0"
+serde = "1.0.195"

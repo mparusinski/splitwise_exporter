@@ -1,9 +1,19 @@
 use std::{env,process};
+use csv::Writer;
 use chrono::{Utc, DateTime, Duration};
 use splitwise::model::expenses::ListExpensesRequest;
 
 const APIKEY_ENVVAR : &'static str = "SPLITWISE_API_KEY";
 const FAMILY_GROUP_NAME : &'static str = "Family 😍";
+
+#[derive(serde::Serialize)]
+struct Row<'a> {
+    description: &'a str,
+    date: DateTime<Utc>,
+    currency_code: &'a str,
+    created_by: &'a str,
+    category: &'a str,
+}
 
 fn get_past_day_midnight() -> DateTime<Utc> {
     let midnight = Utc::now().date().and_hms_opt(0,0,0).unwrap();
@@ -27,6 +37,15 @@ fn build_expenses_request(group_id: i64) -> ListExpensesRequest {
 
 #[tokio::main]
 async fn main() {
+    let args: Vec<String> = env::args().collect();
+    if args.len() != 2 {
+        let program = &args[0];
+        println!("Usage: {program} output.csv");
+        process::exit(-1);
+    }
+    let output_file = &args[1];
+    println!("Output CSV file {output_file}");
+
     match env::var(APIKEY_ENVVAR) {
         Ok(val) => println!("{APIKEY_ENVVAR} defined => All is good!"),
         Err(e) => {
@@ -58,11 +77,26 @@ async fn main() {
         Some(group_id) => {
             println!("Found {FAMILY_GROUP_NAME} with group id {group_id}");
             let expense_req = build_expenses_request(group_id);
-            let expenses = client.expenses().list_expenses(expense_req).await;
+            let mut expenses = client.expenses().list_expenses(expense_req).await;
             expenses.map(| expenses_vec | {
-                expenses_vec.iter().for_each(| an_expense | {
-                    println!("{:#?}", an_expense);
-                })
+                let mut wtr = Writer::from_path(output_file).unwrap();
+                let default_date = Utc::now().date().and_hms_opt(0,0,0).unwrap();
+                expenses_vec.iter().for_each(| e | {
+                    // println!("{:#?}", e);
+                    wtr.serialize(Row {
+                        // TODO: Find a way to merge two optionals (must be possible)
+                        description: e.description.clone().unwrap_or_default().as_str(),
+                        date: e.date.clone().unwrap_or_default(),
+                        currency_code: e.currency_code.clone().unwrap_or_default().as_str(),
+                        created_by: e.created_by.clone().map(| c | { 
+                            c.first_name
+                        }).unwrap().unwrap_or_default().as_str(),
+                        category: e.category.clone().map(| c | { 
+                            c.name
+                        }).unwrap().unwrap_or_default().as_str(),
+                    }).unwrap();
+                });
+                wtr.flush();
             });
         }
     }
