@@ -10,9 +10,6 @@
     <a href="https://github.com/mparusinski/splitwise_exporter/actions/workflows/build_nix.yml">
         <img src="https://github.com/mparusinski/splitwise_exporter/actions/workflows/build_nix.yml/badge.svg?branch=main&event=push" alt="continuous integration" style="height: 20px;">
     </a>
-    <a href="https://github.com/mparusinski/splitwise_exporter/graphs/contributors">
-        <img src="https://img.shields.io/github/contributors-anon/mparusinski/splitwise_exporter?color=yellow&style=flat-square" alt="contributors" style="height: 20px;">
-    </a>
 </h4>
 
 ## Introduction
