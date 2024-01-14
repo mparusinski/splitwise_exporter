@@ -7,8 +7,8 @@
 </p>
 
 <h4 align="center">
-    <a href="https://github.com/mparusinski/splitwise_exporter/actions/workflows/ci.yml">
-        <img src="https://img.shields.io/github/actions/workflow/status/mparusinski/splitwise_exporter/ci.yml?branch=main&label=pipeline&style=flat-square" alt="continuous integration" style="height: 20px;">
+    <a href="https://github.com/mparusinski/splitwise_exporter/actions/workflows/build_nix.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/mparusinski/splitwise_exporter/build_nix.yml?branch=main&label=pipeline&style=flat-square" alt="continuous integration" style="height: 20px;">
     </a>
     <a href="https://github.com/mparusinski/splitwise_exporter/graphs/contributors">
         <img src="https://img.shields.io/github/contributors-anon/mparusinski/splitwise_exporter?color=yellow&style=flat-square" alt="contributors" style="height: 20px;">
