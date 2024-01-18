@@ -16,6 +16,11 @@
           src = ./.;
           buildInputs = with pkgs; [ pkg-config openssl ];
         };
+        packages.splitwise-exporter = naersk-lib.buildPackage {
+          pname = "splitwise-exporter";
+          src = ./.;
+          buildInputs = with pkgs; [ pkg-config openssl ];
+        };
         devShell = with pkgs; mkShell {
           buildInputs = [ 
             cargo rustc rustfmt pre-commit rustPackages.clippy openssl pkg-config
