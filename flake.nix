@@ -13,11 +13,12 @@
       in
       {
         defaultPackage = naersk-lib.buildPackage {
+          pname = "splitwise_exporter";
           src = ./.;
           buildInputs = with pkgs; [ pkg-config openssl ];
         };
         packages.splitwise-exporter = naersk-lib.buildPackage {
-          pname = "splitwise-exporter";
+          pname = "splitwise_exporter";
           src = ./.;
           buildInputs = with pkgs; [ pkg-config openssl ];
         };
