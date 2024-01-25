@@ -12,7 +12,7 @@
     devShells.default = pkgs.mkShell {
       packages = with pkgs; [ cargo rustc pkg-config openssl ];
     };
-    defaultPackage = pkgs.rustPlatform.buildRustPackage {
+    packages.splitwise-exporter = pkgs.rustPlatform.buildRustPackage {
       pname = "splitwise_exporter";
       version = "0.1.0";
       src = ./.;
